@@ -3,637 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>유리 개구리 암기 게임! 🐸</title>
+    <title>🌍 EU 기말고사 퀴즈</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Poor+Story&display=swap');
+
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background-color: #e6f7ff; /* 연한 하늘색 배경 */
+            font-family: 'Nanum Gothic Coding', 'Poor Story', cursive, sans-serif;
+            background-color: #f0f7ff;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); /* 귀여운 배경 패턴 */
+            color: #333;
         }
-        .container {
+
+        #quiz-container {
             background-color: #ffffff;
-            border-radius: 25px;
-            padding: 30px 40px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
             text-align: center;
-            max-width: 800px;
-            width: 100%;
-            border: 5px solid #aaddff; /* 테두리 */
-            position: relative;
-            overflow: hidden;
         }
-        .container::before {
-            content: '🐸✨';
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            font-size: 60px;
-            opacity: 0.2;
-            transform: rotate(-20deg);
-        }
-        .container::after {
-            content: '🌿💧';
-            position: absolute;
-            bottom: -15px;
-            right: -15px;
-            font-size: 60px;
-            opacity: 0.2;
-            transform: rotate(20deg);
-        }
-        h1 {
-            color: #4682b4; /* 스틸블루 */
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        h2 {
-            color: #6a5acd; /* 슬레이트 블루 */
-            font-size: 1.8em;
-            margin-top: 0;
+
+        #quiz-header {
             margin-bottom: 20px;
         }
-        .korean-sentence {
-            font-size: 1.5em;
-            color: #2f4f4f; /* 다크 슬레이트 그레이 */
-            margin-bottom: 30px;
-            background-color: #f0f8ff;
-            padding: 15px 25px;
-            border-radius: 15px;
-            border: 2px dashed #b0e0e6;
+
+        #quiz-header h1 {
+            font-family: 'Poor Story', cursive;
+            font-size: 2.5rem;
+            color: #005a9c;
+            margin: 0;
         }
-        .english-sentence-display {
-            font-size: 1.3em;
-            color: #333;
-            margin-bottom: 30px;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 15px;
-            border: 2px solid #e0e0e0;
-            text-align: left;
-            line-height: 1.8;
-            word-wrap: break-word; /* 긴 단어 줄 바꿈 */
-        }
-        .blank-input {
-            width: 120px; /* 블랭크 입력창 기본 너비 */
-            padding: 8px 10px;
-            font-size: 1em;
-            border: 2px solid #87cefa;
-            border-radius: 8px;
-            box-sizing: border-box;
-            text-align: center;
-            margin: 0 3px;
-            vertical-align: middle; /* 텍스트와 높이 맞추기 */
-            transition: all 0.3s ease;
-        }
-        .blank-input:focus {
-            border-color: #1e90ff;
-            box-shadow: 0 0 8px rgba(30, 144, 255, 0.3);
-            outline: none;
-        }
-        .full-sentence-input { /* 라운드 3, 4 전체 문장 입력용 */
-            width: calc(100% - 40px);
-            padding: 15px;
-            font-size: 1.3em;
-            border: 3px solid #87cefa;
-            border-radius: 12px;
-            box-sizing: border-box;
-            margin-top: 10px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .full-sentence-input:focus {
-            border-color: #1e90ff;
-            box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
-            outline: none;
-        }
-        .feedback {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-top: 20px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        #progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
             border-radius: 10px;
-            padding: 5px;
+            margin: 20px 0;
         }
-        .feedback.correct {
-            color: #008000; /* 초록색 */
-            background-color: #e6ffe6;
-            border: 2px solid #00cc00;
+
+        #progress-bar {
+            width: 0%;
+            height: 15px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
         }
-        .feedback.wrong {
-            color: #ff0000; /* 빨간색 */
-            background-color: #ffe6e6;
-            border: 2px solid #ff6666;
+
+        #question-box {
+            min-height: 100px;
+            margin-bottom: 20px;
         }
-        .button-group {
-            margin-top: 30px;
+
+        #question {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .options-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            flex-direction: column;
+            gap: 12px;
         }
-        button {
-            background-color: #6495ed; /* 코른플라워 블루 */
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.2em; /* 버튼 글자 크기 조정 */
-            border: none;
-            border-radius: 30px;
+
+        .option-btn {
+            font-family: 'Nanum Gothic Coding', sans-serif;
+            background-color: #f8f9fa;
+            border: 2px solid #d1d9e6;
+            border-radius: 10px;
+            padding: 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-        button:hover {
-            background-color: #4169e1;
-            transform: translateY(-3px);
-        }
-        button:active {
-            transform: translateY(0);
-        }
-        .score-display {
-            font-size: 2em;
-            font-weight: bold;
-            color: #4682b4;
-            margin-top: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-        .answer-reveal {
-            font-size: 1.2em;
-            color: #6a5acd; /* 슬레이트 블루 */
-            margin-top: 10px;
-            background-color: #f0f8ff;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #b0e0e6;
+            font-size: 1rem;
             text-align: left;
+            transition: all 0.2s ease;
         }
-        .round-info {
-            font-size: 1.2em;
-            color: #4682b4;
-            margin-bottom: 15px;
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #e9ecef;
+            border-color: #007bff;
+        }
+        
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
             font-weight: bold;
         }
-        .correct-word {
-            color: #008000;
+
+        .option-btn.wrong {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
             font-weight: bold;
         }
-        .wrong-word {
-            color: #ff0000;
-            font-weight: bold;
-            text-decoration: line-through;
-        }
-        .missing-word { /* 사용자가 빼먹은 단어 */
-            color: #ff8c00; /* 주황색 */
-            font-weight: bold;
-            background-color: #fffacd; /* 연한 노랑 */
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-        .extra-word { /* 사용자가 추가한 단어 */
-            color: #4b0082; /* 진한 보라색 */
-            background-color: #e6e6fa; /* 연한 보라 */
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-        .navigation-buttons {
+
+        #feedback {
             margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        #navigation {
+            margin-top: 25px;
             display: flex;
             justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap; /* 버튼이 많아질 경우 줄바꿈 */
         }
-        .navigation-buttons button {
-            padding: 10px 20px;
-            font-size: 1em;
-            background-color: #7b68ee; /* 미디엄 슬레이트 블루 */
+
+        #next-btn, #restart-btn {
+            font-family: 'Poor Story', cursive;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
         }
-        .navigation-buttons button:hover {
-            background-color: #6a5acd;
+
+        #next-btn:hover, #restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
+
+        #restart-btn {
+            display: none; /* Initially hidden */
+        }
+        
+        /* Final Score Styling */
+        #score-container {
+            display: none; /* Initially hidden */
+        }
+
+        #score-container h2 {
+            font-family: 'Poor Story', cursive;
+            font-size: 2rem;
+            color: #005a9c;
+        }
+
+        #final-score {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #007bff;
+            margin: 10px 0;
+        }
+        
+        #score-message {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🐸 유리 개구리 암기 게임 🐸</h1>
-        <div class="score-display">총점: <span id="totalScore">0</span>점</div>
-        <div class="round-info" id="roundInfo"></div>
 
-        <div id="gameScreen">
-            <h2 id="questionTitle"></h2>
-            <div class="korean-sentence" id="koreanSentence"></div>
-            
-            <div class="english-sentence-display" id="englishSentenceDisplay">
-                </div>
-
-            <input type="text" id="fullSentenceInput" class="full-sentence-input hidden" onkeydown="handleEnter(event)">
-
-            <div class="feedback" id="feedback"></div>
-            <div class="answer-reveal hidden" id="correctAnswerReveal">정답: <span id="revealedAnswer"></span></div>
-            <div class="button-group">
-                <button onclick="prevQuestion()">뒤로 가기</button> <button onclick="checkAnswer()">확인</button>
-                <button onclick="nextQuestion()">다음</button>
-            </div>
-            <div class="navigation-buttons">
-                <button onclick="goToRound(1)">라운드 1</button>
-                <button onclick="goToRound(2)">라운드 2</button>
-                <button onclick="goToRound(3)">라운드 3</button>
-                <button onclick="goToRound(4)">라운드 4</button>
-            </div>
+    <div id="quiz-container">
+        <div id="quiz-header">
+            <h1>🌍 EU 기말고사 퀴즈</h1>
+        </div>
+        
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
         </div>
 
-        <div id="endScreen" class="hidden">
-            <h1>🎉 게임 끝! 🎉</h1>
-            <h2>최종 점수: <span id="finalScore"></span>점</h2>
-            <p style="font-size: 1.5em; color: #6a5acd;">정말 잘했어요! 또 도전해봐요!</p>
-            <button onclick="restartGame()">다시 시작</button>
+        <div id="quiz-content">
+            <div id="question-box">
+                <p id="question"></p>
+            </div>
+            <div class="options-container" id="options-container"></div>
+            <div id="feedback"></div>
+        </div>
+        
+        <div id="score-container">
+            <h2>🎉 퀴즈 완료! 🎉</h2>
+            <p id="score-message">당신의 최종 점수는?</p>
+            <p id="final-score"></p>
+        </div>
+
+        <div id="navigation">
+            <button id="next-btn" style="display: none;">다음 문제</button>
+            <button id="restart-btn">다시 풀기</button>
         </div>
     </div>
 
     <script>
-        const sentences = [
+        const quizData = [
             {
-                korean: "유리 개구리는 '투명 개구리'라고 불립니다.",
-                english: "Glass frogs are called \"see-through frogs.\""
+                question: "본문에 따르면, 유럽 연합(EU)이 공식적으로 출범한 연도는 언제인가요?",
+                options: ["1951년 (유럽석탄철강공동체)", "1985년 (솅겐 조약)", "1993년", "2002년 (유로화 유통)", "2020년 (영국 탈퇴)"],
+                answer: "1993년",
+                feedback: "정답! 1993년 마스트리히트 조약을 통해 유럽 연합(EU)이 공식 출범했어요."
             },
             {
-                korean: "그들의 피부는 유리처럼 투명합니다.",
-                english: "Their skin is clear like glass."
+                question: "유럽 연합(EU)이 회원국 간 자유로운 이동을 보장하는 대상이 <strong>아닌</strong> 것은 무엇인가요?",
+                options: ["노동", "자본", "상품", "서비스", "문화"],
+                answer: "문화",
+                feedback: "정답! EU는 '노동, 자본, 상품, 서비스'의 자유로운 이동을 보장합니다. 문화는 포함되지 않아요."
             },
             {
-                korean: "그들은 남아메리카와 중앙아메리카에 삽니다.",
-                english: "They live in South America and Central America."
+                question: "본문에 언급된 유럽 연합(EU)의 공동 화폐는 무엇인가요?",
+                options: ["달러 ($)", "파운드 (£)", "유로 (€)", "프랑 (₣)", "위안 (¥)"],
+                answer: "유로 (€)",
+                feedback: "정답! EU의 많은 회원국들은 유로(€)를 공동 화폐로 사용하고 있습니다."
             },
             {
-                korean: "낮에는 이 개구리들을 찾기 어렵습니다.",
-                english: "It is hard to find these frogs during the day."
+                question: "본문의 내용과 일치하는 것을 고르세요.",
+                options: [
+                    "EU는 순수한 경제 공동체이다.",
+                    "EU는 2023년 현재 총 28개국이 가입해 있다.",
+                    "EU 회원국이 되려면 반드시 유로화를 사용해야 한다.",
+                    "2020년 영국(UK)이 EU를 탈퇴했다.",
+                    "EU는 국가의 고유한 정치, 사회 정책에 관여하지 않는다."
+                ],
+                answer: "2020년 영국(UK)이 EU를 탈퇴했다.",
+                feedback: "정답! 본문에 따르면 영국은 2020년 탈퇴했고, 2023년 현재 회원국은 27개국입니다. EU는 경제뿐만 아니라 정치, 사회 등에도 공동 정책을 추구해요."
             },
             {
-                korean: "그들은 보통 나뭇잎 아래에 숨어 있습니다.",
-                english: "They usually hide under tree leaves."
-            },
-            {
-                korean: "새들과 다른 포식자들은 그들의 몸이 투명하기 때문에 그들을 볼 수 없습니다.",
-                english: "Birds and other predators can't see them because their bodies are see-through."
-            },
-            {
-                korean: "밤에는 개구리들이 깨어납니다.",
-                english: "At night, the frogs wake up."
-            },
-            {
-                korean: "그러면 그들의 몸은 더 이상 그렇게 투명하지 않습니다.",
-                english: "Then, their bodies are not so clear anymore."
-            },
-            {
-                korean: "그들은 다시 갈색으로 변합니다.",
-                english: "They turn brown again."
-            },
-            {
-                korean: "그들은 곤충과 짝을 찾기 위해 뛰어다닙니다.",
-                english: "They jump around to find insects and mates."
-            },
-            {
-                korean: "'그들이 투명할 때, 그것은 그들이 안전하게 지내도록 돕습니다.'라고 그들을 연구하는 과학자 준지에 야오가 말합니다.",
-                english: "\"When they are see-through, it helps them stay safe,\" says Junjie Yao, a scientist who studies them."
-            },
-            {
-                korean: "그들이 깨어 있을 때, 그들은 포식자로부터 멀리 떨어져 있기 위해 움직일 수 있습니다.",
-                english: "When they are awake, they can move to stay away from predators."
-            },
-            {
-                korean: "하지만 그들이 잠을 잘 때는, 그들의 투명한 피부가 그들을 숨겨줍니다.",
-                english: "But when they are sleeping, their clear skin hides them."
+                question: "두 차례의 세계 대전 이후, 유럽이 통합을 추진하게 된 주된 배경으로 옳은 것은 무엇인가요?",
+                options: [
+                    "미국의 간섭에서 벗어나기 위해",
+                    "단일 언어 사용을 통한 효율성 증대",
+                    "경제 발전과 평화 정착을 위해",
+                    "소련의 팽창을 군사적으로 견제하기 위해",
+                    "왕정 국가들의 연합을 강화하기 위해"
+                ],
+                answer: "경제 발전과 평화 정착을 위해",
+                feedback: "정답! 잦은 전쟁을 겪은 유럽은 경제 발전과 평화를 이루기 위해 통합의 필요성을 느끼게 되었습니다."
             }
         ];
 
-        let currentSentenceIndex = 0;
-        let totalScore = 0;
-        let currentRound = 1; // 1: 블랭크 3개, 2: 블랭크 더 많이, 3: 통째로, 4: 통문장 쓰기 (블랭크 없음)
-        const maxRounds = 4;
-        const totalQuestionsPerRound = sentences.length;
+        const quizContainer = document.getElementById('quiz-container');
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const restartButton = document.getElementById('restart-btn');
+        
+        const progressBar = document.getElementById('progress-bar');
+        const quizContent = document.getElementById('quiz-content');
+        const scoreContainer = document.getElementById('score-container');
+        const finalScoreElement = document.getElementById('final-score');
 
-        const totalScoreSpan = document.getElementById('totalScore');
-        const roundInfoDiv = document.getElementById('roundInfo');
-        const koreanSentenceDiv = document.getElementById('koreanSentence');
-        const englishSentenceDisplay = document.getElementById('englishSentenceDisplay'); // 문장 표시 영역
-        const fullSentenceInput = document.getElementById('fullSentenceInput'); // 라운드 3, 4 전용 입력
-        const feedbackDiv = document.getElementById('feedback');
-        const gameScreen = document.getElementById('gameScreen');
-        const endScreen = document.getElementById('endScreen');
-        const finalScoreSpan = document.getElementById('finalScore');
-        const questionTitle = document.getElementById('questionTitle');
-        const correctAnswerReveal = document.getElementById('correctAnswerReveal');
-        const revealedAnswerSpan = document.getElementById('revealedAnswer');
+        let currentQuestionIndex = 0;
+        let score = 0;
 
-        let blankIndices = []; // 블랭크 단어의 인덱스를 저장할 배열
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizContent.style.display = 'block';
+            scoreContainer.style.display = 'none';
+            nextButton.style.display = 'none';
+            restartButton.style.display = 'none';
+            feedbackElement.textContent = '';
+            showQuestion();
+        }
 
-        // 무작위로 블랭크를 선택하는 함수 (더 견고하게 수정)
-        function getWordsToBlank(words, numBlanks) {
-            const indices = new Set();
-            // 구두점만 있는 단어를 제외하고, 길이가 2 초과인 단어를 우선적으로 블랭크 대상으로 선정
-            const eligibleIndices = words.map((word, idx) => ({ word: word.replace(/[.,!?;:\"'/]$/, ''), idx }))
-                                         .filter(item => item.word.length > 2)
-                                         .map(item => item.idx);
+        function showQuestion() {
+            updateProgressBar();
+            const currentQuestion = quizData[currentQuestionIndex];
+            questionElement.innerHTML = `<strong>Q${currentQuestionIndex + 1}.</strong> ${currentQuestion.question}`;
             
-            // 가능한 블랭크할 단어가 numBlanks보다 적으면, 구두점만 있는 단어를 제외한 모든 단어에서 선택
-            if (eligibleIndices.length < numBlanks) {
-                const allValidWordsIndices = words.map((word, idx) => ({ word: word.replace(/[.,!?;:\"'/]$/, ''), idx }))
-                                                    .filter(item => item.word.length > 0) // 아예 빈 문자열이 아닌 단어
-                                                    .map(item => item.idx);
-
-                while (indices.size < numBlanks && indices.size < allValidWordsIndices.length) {
-                    const randomIndex = Math.floor(Math.random() * allValidWordsIndices.length);
-                    indices.add(allValidWordsIndices[randomIndex]);
-                }
-            } else { // 충분한 eligibleIndices가 있다면 거기서만 선택
-                while (indices.size < numBlanks && indices.size < eligibleIndices.length) {
-                    const randomIndex = Math.floor(Math.random() * eligibleIndices.length);
-                    indices.add(eligibleIndices[randomIndex]);
-                }
-            }
-            return Array.from(indices).sort((a,b) => a - b);
+            optionsContainer.innerHTML = '';
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerHTML = option;
+                button.classList.add('option-btn');
+                button.addEventListener('click', () => selectAnswer(button, option, currentQuestion));
+                optionsContainer.appendChild(button);
+            });
+            nextButton.style.display = 'none';
         }
 
+        function selectAnswer(button, selectedOption, question) {
+            const isCorrect = selectedOption === question.answer;
 
-        function displayQuestion() {
-            if (currentRound > maxRounds) {
-                endGame();
-                return;
-            }
-            
-            // 라운드 정보 업데이트
-            const roundNumberDisplay = currentRound > maxRounds ? maxRounds : currentRound; // 최대 라운드 초과 시 maxRounds로 표시
-            roundInfoDiv.textContent = `라운드: ${roundNumberDisplay} / ${maxRounds} (문제 ${currentSentenceIndex + 1} / ${totalQuestionsPerRound})`;
-
-            const currentSentence = sentences[currentSentenceIndex];
-            feedbackDiv.className = 'feedback'; // 피드백 초기화
-            feedbackDiv.textContent = '';
-            correctAnswerReveal.classList.add('hidden');
-            fullSentenceInput.classList.add('hidden'); // 전체 문장 입력창 숨기기
-            englishSentenceDisplay.innerHTML = ''; // 문장 표시 영역 초기화
-
-            // 모든 라운드에서 한글 번역 제시
-            koreanSentenceDiv.textContent = currentSentence.korean;
-
-            if (currentRound === 3 || currentRound === 4) { // 라운드 3과 4는 통문장 입력
-                questionTitle.textContent = currentRound === 3 ? "다음 영어 문장을 통째로 써보세요." : "다음 영어 문장을 통째로 써보세요. (마지막 연습)";
-                fullSentenceInput.classList.remove('hidden'); // 통문장 입력창 보이기
-                fullSentenceInput.value = "";
-                fullSentenceInput.disabled = false;
-                
-                // 라운드 3은 placeholder로 힌트 제공, 라운드 4는 placeholder 비움
-                fullSentenceInput.placeholder = currentRound === 3 ? currentSentence.english : ""; 
-                
-                englishSentenceDisplay.style.display = 'none'; // 블랭크 문장 표시 영역 숨기기
-                fullSentenceInput.focus(); // 통문장 입력창에 포커스
-            } else { // 라운드 1, 2는 블랭크 입력
-                questionTitle.textContent = "다음 영어 문장을 완성하세요.";
-                fullSentenceInput.classList.add('hidden'); // 통문장 입력창 숨기기
-                englishSentenceDisplay.style.display = 'block'; // 블랭크 문장 표시 영역 보이기
-
-                const words = currentSentence.english.split(' ');
-                let numBlanks;
-
-                if (currentRound === 1) { // 3개 블랭크
-                    numBlanks = 3;
-                } else if (currentRound === 2) { // 더 많이 블랭크 (절반 정도)
-                    numBlanks = Math.max(1, Math.floor(words.length / 2));
+            Array.from(optionsContainer.children).forEach(btn => {
+                btn.disabled = true;
+                if (btn.innerHTML === question.answer) {
+                    btn.classList.add('correct');
+                } else if (btn === button) {
+                    btn.classList.add('wrong');
                 }
-                
-                blankIndices = getWordsToBlank(words, numBlanks);
-
-                let displayHtml = '';
-                words.forEach((word, index) => {
-                    if (blankIndices.includes(index)) {
-                        const inputWidth = Math.max(80, word.replace(/[.,!?;:\"'/]$/, '').length * 12); // 단어 길이에 따라 입력창 너비 조절 (최소 80px)
-                        displayHtml += `<input type="text" class="blank-input" data-index="${index}" style="width: ${inputWidth}px;" onkeydown="handleEnter(event)"> `;
-                    } else {
-                        displayHtml += `${word} `;
-                    }
-                });
-                englishSentenceDisplay.innerHTML = displayHtml;
-
-                // 입력 필드 활성화 및 첫 번째 블랭크에 포커스
-                const firstBlankInput = document.querySelector('.blank-input');
-                if (firstBlankInput) {
-                    firstBlankInput.focus();
-                }
-            }
-        }
-
-        // 엔터 키 처리
-        function handleEnter(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // 기본 Enter 동작 방지 (예: 폼 전송)
-                checkAnswer();
-            }
-        }
-
-        function checkAnswer() {
-            let userAnswer;
-            let correctAnswer;
-            let isCorrect = true;
-
-            const currentSentence = sentences[currentSentenceIndex];
-            correctAnswer = currentSentence.english; // 모든 라운드에서 현재 문장이 정답
-
-            if (currentRound === 3 || currentRound === 4) { // 라운드 3, 4는 통문장 입력
-                userAnswer = fullSentenceInput.value.trim();
-                isCorrect = (userAnswer.toLowerCase() === correctAnswer.toLowerCase());
-            } else { // 라운드 1, 2는 블랭크 입력
-                const inputElements = document.querySelectorAll('.blank-input');
-                let userFilledWords = []; // 사용자가 입력한 단어들만 모음
-
-                // 사용자가 입력한 단어들을 data-index에 맞춰 배열에 저장
-                inputElements.forEach(input => {
-                    const index = parseInt(input.dataset.index);
-                    userFilledWords[index] = input.value.trim();
-                });
-
-                // 전체 문장을 재구성하여 userAnswer 생성 (비교를 위함)
-                let tempFullUserSentenceWords = [];
-                const originalWords = correctAnswer.split(' '); // currentSentence.english 사용
-                originalWords.forEach((word, index) => {
-                    if (blankIndices.includes(index)) {
-                        tempFullUserSentenceWords.push(userFilledWords[index] || ''); // 사용자가 입력 안 했으면 빈 문자열
-                    } else {
-                        tempFullUserSentenceWords.push(word);
-                    }
-                });
-                userAnswer = tempFullUserSentenceWords.join(' ');
-                
-                // 각 블랭크 단어별로 정답 확인
-                inputElements.forEach(input => {
-                    const index = parseInt(input.dataset.index);
-                    // 구두점 제거 후 비교 (단어 자체의 맞춤법만 확인)
-                    const cleanUserWord = input.value.trim().replace(/['".,!?;:/-]$/, '');
-                    const cleanCorrectWord = originalWords[index].replace(/['".,!?;:/-]$/, '');
-
-                    if (cleanUserWord.toLowerCase() !== cleanCorrectWord.toLowerCase()) {
-                        isCorrect = false;
-                        input.style.borderColor = 'red'; // 틀린 블랭크는 빨간 테두리
-                    } else {
-                        input.style.borderColor = 'green'; // 맞은 블랭크는 초록 테두리
-                    }
-                });
-            }
+            });
             
             if (isCorrect) {
-                feedbackDiv.textContent = '👍 정답이에요! 10점 획득!';
-                feedbackDiv.classList.remove('wrong');
-                feedbackDiv.classList.add('correct');
-                totalScore += 10;
-                totalScoreSpan.textContent = totalScore;
-                // 모든 입력 필드 비활성화
-                document.querySelectorAll('.blank-input').forEach(input => input.disabled = true);
-                if (currentRound === 3 || currentRound === 4) fullSentenceInput.disabled = true;
+                score++;
+                feedbackElement.textContent = `✅ ${question.feedback}`;
+                feedbackElement.style.color = '#155724';
             } else {
-                feedbackDiv.textContent = '❌ 틀렸어요. 다시 시도하거나 다음 문제로 넘어가세요.';
-                feedbackDiv.classList.remove('correct');
-                feedbackDiv.classList.add('wrong');
-                correctAnswerReveal.classList.remove('hidden');
-                revealedAnswerSpan.innerHTML = formatAnswerWithDifferences(userAnswer, correctAnswer);
-                // 입력 필드는 그대로 두고 다시 시도할 수 있도록
-                if (currentRound === 3 || currentRound === 4) fullSentenceInput.disabled = false;
-            }
-        }
-
-        // 정답과 사용자 입력의 차이를 시각적으로 보여주는 함수 (개선된 버전)
-        function formatAnswerWithDifferences(user, correct) {
-            // 단어와 구두점을 독립적인 토큰으로 분리하는 함수
-            // 하이픈, 아포스트로피 등도 단어의 일부로 인식하도록 정규식 수정
-            const tokenize = (text) => text.match(/\b[\w'-]+\b|[.,!?;:\"'\/]/g) || [];
-            
-            const userTokens = tokenize(user);
-            const correctTokens = tokenize(correct);
-
-            let resultHtml = '';
-            let correctTokenIndex = 0; // 정답 토큰 배열의 현재 인덱스
-
-            for (let i = 0; i < userTokens.length; i++) {
-                const userToken = userTokens[i];
-                let userWordClean = userToken.toLowerCase().replace(/['".,!?;:/-]$/, ''); 
-
-                let foundMatch = false;
-
-                // 정답 토큰 중에서 일치하는 것을 찾음
-                if (correctTokenIndex < correctTokens.length) {
-                    const correctToken = correctTokens[correctTokenIndex];
-                    let correctWordClean = correctToken.toLowerCase().replace(/['".,!?;:/-]$/, ''); 
-
-                    if (userWordClean === correctWordClean) { // 단어 내용이 같을 때 (구두점 무시)
-                        if (userToken === correctToken) { // 구두점까지 완전히 같으면
-                            resultHtml += `<span class="correct-word">${userToken}</span> `;
-                        } else { // 단어는 같지만 구두점이 다르면
-                            resultHtml += `<span class="correct-word">${userToken}</span> (<span class="missing-word">${correctToken}</span>) `;
-                        }
-                        correctTokenIndex++;
-                        foundMatch = true;
-                    } else if (userToken.match(/^[.,!?;:\"'/]$/) && userToken === correctToken) { // 사용자 입력이 구두점이고, 정답도 동일 구두점
-                           resultHtml += `<span class="correct-word">${userToken}</span> `;
-                           correctTokenIndex++;
-                           foundMatch = true;
-                    } else { // 불일치하는 경우
-                        // 사용자가 틀린 단어 (정답 단어와 비교)
-                        resultHtml += `<span class="wrong-word">${userToken}</span> `;
-                        // 만약 정답 토큰이 남아있고, 이 정답 토큰이 사용자 토큰 다음에 나와야 할 구두점이라면, 먼저 처리
-                        if (correctToken.match(/^[.,!?;:\"'/]$/)) { // 정답이 구두점인 경우
-                             resultHtml += `<span class="missing-word">[${correctToken}]</span> `;
-                             correctTokenIndex++;
-                        } else { // 정답이 단어인 경우
-                            resultHtml += `(<span class="missing-word">${correctToken}</span>) `;
-                            correctTokenIndex++;
-                        }
-                        foundMatch = true; // 사용자 토큰은 처리됨
-                    }
-                } 
-                
-                if (!foundMatch) { // 사용자 입력에만 있는 단어 (추가된 단어)
-                     resultHtml += `<span class="extra-word">${userToken}</span> `;
-                }
+                feedbackElement.textContent = `❌ 오답! ${question.feedback}`;
+                feedbackElement.style.color = '#721c24';
             }
 
-            // 정답 토큰 중에서 사용자 입력에 없는 단어 (빼먹은 단어)
-            while (correctTokenIndex < correctTokens.length) {
-                resultHtml += `<span class="missing-word">[${correctTokens[correctTokenIndex]}]</span> `;
-                correctTokenIndex++;
-            }
-            
-            return resultHtml.trim();
-        }
-
-
-        function nextQuestion() {
-            currentSentenceIndex++;
-            if (currentSentenceIndex < sentences.length) {
-                displayQuestion();
+            if (currentQuestionIndex < quizData.length - 1) {
+                nextButton.style.display = 'inline-block';
             } else {
-                // 현재 라운드의 모든 문제 완료
-                currentSentenceIndex = 0; // 다음 라운드를 위해 인덱스 초기화
-                currentRound++; // 다음 라운드로 이동
-                if (currentRound <= maxRounds) {
-                    // 다음 라운드 시작
-                    displayQuestion();
-                } else {
-                    // 모든 라운드 종료
-                    endGame();
-                }
+                showScore();
             }
         }
-
-        function prevQuestion() {
-            // 첫 번째 문제의 첫 라운드에서는 더 이상 뒤로 갈 수 없음
-            if (currentRound === 1 && currentSentenceIndex === 0) {
-                return;
-            }
-
-            if (currentSentenceIndex > 0) {
-                currentSentenceIndex--;
-            } else if (currentRound > 1) {
-                currentRound--;
-                currentSentenceIndex = sentences.length - 1; // 이전 라운드의 마지막 문제로 이동
-            }
-            displayQuestion();
+        
+        function showScore() {
+            quizContent.style.display = 'none';
+            scoreContainer.style.display = 'block';
+            finalScoreElement.textContent = `${score} / ${quizData.length}`;
+            nextButton.style.display = 'none';
+            restartButton.style.display = 'inline-block';
+        }
+        
+        function updateProgressBar() {
+            const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
         }
 
-        function goToRound(roundNum) {
-            if (roundNum >= 1 && roundNum <= maxRounds) {
-                currentRound = roundNum;
-                currentSentenceIndex = 0; // 해당 라운드의 첫 문제로 이동
-                totalScore = 0; // 라운드 변경 시 점수 초기화
-                totalScoreSpan.textContent = 0;
-                displayQuestion();
-            }
-        }
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            feedbackElement.textContent = '';
+            showQuestion();
+        });
+        
+        restartButton.addEventListener('click', startQuiz);
 
-        function endGame() {
-            gameScreen.classList.add('hidden');
-            endScreen.classList.remove('hidden');
-            finalScoreSpan.textContent = totalScore;
-        }
-
-        function restartGame() {
-            currentSentenceIndex = 0;
-            totalScore = 0;
-            currentRound = 1;
-            totalScoreSpan.textContent = 0;
-            gameScreen.classList.remove('hidden');
-            endScreen.classList.add('hidden');
-            displayQuestion();
-        }
-
-        // 게임 시작 시 첫 문제 표시
-        displayQuestion();
+        // Start the quiz on page load
+        startQuiz();
     </script>
 </body>
 </html>
