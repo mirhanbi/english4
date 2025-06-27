@@ -3,337 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 EU 기말고사 퀴즈</title>
+    <title>🌟유럽 탐험 기말고사🌟</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Poor+Story&display=swap');
-
         body {
-            font-family: 'Nanum Gothic Coding', 'Poor Story', cursive, sans-serif;
-            background-color: #f0f7ff;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffe0f0; /* 연한 핑크색 배경 */
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
+            min-height: 100vh;
             margin: 0;
-            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('https://www.transparenttextures.com/patterns/colorful-splashes.png'); /* 귀여운 배경 패턴 */
+            background-repeat: repeat;
         }
-
-        #quiz-container {
+        .container {
             background-color: #ffffff;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            padding: 30px 40px;
+            width: 90%;
+            max-width: 800px;
             text-align: center;
+            border: 5px solid #ff99cc; /* 핑크색 테두리 */
         }
-
-        #quiz-header {
+        h1 {
+            color: #ff66b2; /* 진한 핑크색 */
+            font-size: 2.5em;
             margin-bottom: 20px;
+            text-shadow: 2px 2px #ffe6f2; /* 귀여운 그림자 */
         }
-
-        #quiz-header h1 {
-            font-family: 'Poor Story', cursive;
-            font-size: 2.5rem;
-            color: #005a9c;
-            margin: 0;
-        }
-
-        #progress-bar-container {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        #progress-bar {
-            width: 0%;
-            height: 15px;
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-            border-radius: 10px;
-            transition: width 0.5s ease-in-out;
-        }
-
-        #question-box {
-            min-height: 100px;
-            margin-bottom: 20px;
-        }
-
-        #question {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option-btn {
-            font-family: 'Nanum Gothic Coding', sans-serif;
-            background-color: #f8f9fa;
-            border: 2px solid #d1d9e6;
-            border-radius: 10px;
-            padding: 15px;
-            cursor: pointer;
-            font-size: 1rem;
+        .quiz-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff0f5; /* 아주 연한 핑크 */
+            border-radius: 15px;
+            border: 2px dashed #ffb3d9; /* 점선 테두리 */
             text-align: left;
-            transition: all 0.2s ease;
         }
-
-        .option-btn:hover:not([disabled]) {
-            background-color: #e9ecef;
-            border-color: #007bff;
+        .quiz-section h2 {
+            color: #ff66b2;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ffcced;
+            padding-bottom: 10px;
         }
-        
-        .option-btn.correct {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-            font-weight: bold;
+        .question {
+            font-size: 1.3em;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
-
-        .option-btn.wrong {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-            font-weight: bold;
-        }
-
-        #feedback {
-            margin-top: 20px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            min-height: 25px;
-        }
-
-        #navigation {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-        }
-
-        #next-btn, #restart-btn {
-            font-family: 'Poor Story', cursive;
-            background: linear-gradient(45deg, #007bff, #0056b3);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 30px;
-            font-size: 1.2rem;
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #ffddf0;
         }
-
-        #next-btn:hover, #restart-btn:hover {
+        .options label:hover {
+            background-color: #ffe6f2;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2); /* 라디오 버튼 크기 키우기 */
+        }
+        .answer-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #ffb3d9;
+            border-radius: 8px;
+            font-size: 1.1em;
+            box-sizing: border-box;
+        }
+        .check-button {
+            background-color: #ff99cc; /* 핑크색 버튼 */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px #ff66b2; /* 버튼 그림자 */
+        }
+        .check-button:hover {
+            background-color: #ff66b2;
             transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
-
-        #restart-btn {
-            display: none; /* Initially hidden */
+        .check-button:active {
+            background-color: #e04a92;
+            transform: translateY(0);
+            box-shadow: 0 2px #ff66b2;
         }
-        
-        /* Final Score Styling */
-        #score-container {
-            display: none; /* Initially hidden */
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e6f7ff; /* 연한 파란색 */
+            border-left: 5px solid #66ccff; /* 파란색 왼쪽 테두리 */
+            border-radius: 8px;
+            font-size: 1em;
+            color: #333;
+            display: none; /* 초기에는 숨김 */
+            text-align: left;
         }
-
-        #score-container h2 {
-            font-family: 'Poor Story', cursive;
-            font-size: 2rem;
-            color: #005a9c;
-        }
-
-        #final-score {
-            font-size: 3.5rem;
+        .correct {
+            color: #008000; /* 초록색 */
             font-weight: bold;
-            color: #007bff;
+        }
+        .incorrect {
+            color: #ff0000; /* 빨간색 */
+            font-weight: bold;
+        }
+        .score-section {
+            margin-top: 40px;
+            padding: 25px;
+            background-color: #f0f8ff;
+            border-radius: 20px;
+            border: 3px solid #aaddff;
+            font-size: 1.5em;
+            color: #369;
+            font-weight: bold;
+            display: none;
+        }
+        .score-section p {
             margin: 10px 0;
         }
-        
-        #score-message {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 30px;
+        .buttons-bottom {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
-
+        .buttons-bottom button {
+            background-color: #99ddff; /* 하늘색 버튼 */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px #66b2e0;
+        }
+        .buttons-bottom button:hover {
+            background-color: #66b2e0;
+            transform: translateY(-2px);
+        }
+        .buttons-bottom button:active {
+            background-color: #4a92c0;
+            transform: translateY(0);
+            box-shadow: 0 2px #66b2e0;
+        }
+        u {
+            text-decoration: underline;
+            text-decoration-color: #ff66b2;
+            text-decoration-thickness: 2px;
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>🌟 유럽 탐험 기말고사 🌟</h1>
 
-    <div id="quiz-container">
-        <div id="quiz-header">
-            <h1>🌍 EU 기말고사 퀴즈</h1>
-        </div>
-        
-        <div id="progress-bar-container">
-            <div id="progress-bar"></div>
-        </div>
-
-        <div id="quiz-content">
-            <div id="question-box">
-                <p id="question"></p>
+        <form id="quizForm">
+            <div class="quiz-section" id="q1">
+                <h2>🌍 문제 1 (객관식)</h2>
+                <p class="question">다음 중 지중해성 기후의 특징으로 <u>옳지 않은</u> 것은 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q1_option" value="1">1. 여름에는 고온 건조하고 겨울에는 온난 다습해요.</label>
+                    <label><input type="radio" name="q1_option" value="2">2. 올리브, 포도, 코르크나무 등이 잘 자라요.</label>
+                    <label><input type="radio" name="q1_option" value="3">3. 포도와 올리브 생산량이 많아 와인과 올리브유가 유명해요.</label>
+                    <label><input type="radio" name="q1_option" value="4">4. 주로 유럽 북부 지역에서 나타나는 기후예요.</label>
+                    <label><input type="radio" name="q1_option" value="5">5. 관광 산업이 발달하기 좋아요.</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(1)">정답 확인!</button>
+                <div class="explanation" id="exp1"></div>
             </div>
-            <div class="options-container" id="options-container"></div>
-            <div id="feedback"></div>
-        </div>
-        
-        <div id="score-container">
-            <h2>🎉 퀴즈 완료! 🎉</h2>
-            <p id="score-message">당신의 최종 점수는?</p>
-            <p id="final-score"></p>
+
+            <div class="quiz-section" id="q2">
+                <h2>🏛️ 문제 2 (객관식)</h2>
+                <p class="question">역사가 오래된 유럽 도시의 중심부에 흔히 볼 수 <u>없는</u> 모습은 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q2_option" value="1">1. 고대 로마 유적지</label>
+                    <label><input type="radio" name="q2_option" value="2">2. 중세 시대의 성과 대성당</label>
+                    <label><input type="radio" name="q2_option" value="3">3. 좁고 복잡한 도로</label>
+                    <label><input type="radio" name="q2_option" value="4">4. 트램이나 자전거를 이용하는 친환경 교통수단</label>
+                    <label><input type="radio" name="q2_option" value="5">5. 초고층 빌딩으로 가득 찬 현대적인 업무 지구</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(2)">정답 확인!</button>
+                <div class="explanation" id="exp2"></div>
+            </div>
+
+            <div class="quiz-section" id="q3">
+                <h2>🎭 문제 3 (객관식)</h2>
+                <p class="question">사진 속 '베네치아 카니발'과 같은 축제가 열리는 도시의 특징으로 <u>맞는</u> 것은 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q3_option" value="1">1. 자동차 대신 곤돌라나 배를 이용하여 이동해요.</label>
+                    <label><input type="radio" name="q3_option" value="2">2. 도시 전체가 얼음으로 덮여 있어요.</label>
+                    <label><input type="radio" name="q3_option" value="3">3. 사막 기후로 낮과 밤의 기온차가 매우 커요.</label>
+                    <label><input type="radio" name="q3_option" value="4">4. IT 산업이 매우 발달한 첨단 도시예요.</label>
+                    <label><input type="radio" name="q3_option" value="5">5. 겨울 스포츠 축제가 유명한 곳이에요.</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(3)">정답 확인!</button>
+                <div class="explanation" id="exp3"></div>
+            </div>
+
+            <div class="quiz-section" id="q4">
+                <h2>♻️ 문제 4 (객관식)</h2>
+                <p class="question">유럽의 '지속 가능한 도시'에 대한 설명으로 <u>옳지 않은</u> 것은 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q4_option" value="1">1. 환경을 보호하면서 현재와 미래 세대가 함께 잘 살 수 있도록 노력하는 도시예요.</label>
+                    <label><input type="radio" name="q4_option" value="2">2. 에너지 소비를 줄이기 위해 태양열 발전이나 풍력 발전 같은 신재생 에너지를 활용해요.</label>
+                    <label><input type="radio" name="q4_option" value="3">3. 대중교통 이용을 장려하고 자전거 도로를 잘 만들어요.</label>
+                    <label><input type="radio" name="q4_option" value="4">4. 건물을 높게 지어 인구 밀도를 높이는 것이 중요해요.</label>
+                    <label><input type="radio" name="q4_option" value="5">5. 쓰레기 재활용을 생활화하고 친환경 제품을 사용하려고 노력해요.</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(4)">정답 확인!</button>
+                <div class="explanation" id="exp4"></div>
+            </div>
+
+            <div class="quiz-section" id="q5">
+                <h2>🍋 문제 5 (객관식)</h2>
+                <p class="question">사진 속 레몬 축제가 열리는 프랑스 남부의 '망통'과 같이 기후 특징에 따라 특화된 축제가 발달한 지역의 기후는 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q5_option" value="1">1. 한대 기후</label>
+                    <label><input type="radio" name="q5_option" value="2">2. 냉대 기후</label>
+                    <label><input type="radio" name="q5_option" value="3">3. 온대 해양성 기후</label>
+                    <label><input type="radio" name="q5_option" value="4">4. 지중해성 기후</label>
+                    <label><input type="radio" name="q5_option" value="5">5. 건조 기후</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(5)">정답 확인!</button>
+                <div class="explanation" id="exp5"></div>
+            </div>
+
+            <div class="quiz-section" id="q6">
+                <h2>🇪🇺 문제 6 (객관식)</h2>
+                <p class="question">유럽 연합(EU)의 특징으로 <u>가장 거리가 먼</u> 것은 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q6_option" value="1">1. 유럽의 평화와 번영을 위해 노력해요.</label>
+                    <label><input type="radio" name="q6_option" value="2">2. 대부분의 회원국이 유로화를 공통 화폐로 사용해요.</label>
+                    <label><input type="radio" name="q6_option" value="3">3. 회원국 간에 자유로운 사람, 물건, 서비스, 자본 이동이 가능해요.</label>
+                    <label><input type="radio" name="q6_option" value="4">4. 모든 회원국의 경제 규모와 문화가 동일해요.</label>
+                    <label><input type="radio" name="q6_option" value="5">5. 유럽 경제 통합을 목표로 시작했어요.</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(6)">정답 확인!</button>
+                <div class="explanation" id="exp6"></div>
+            </div>
+
+            <div class="quiz-section" id="q7">
+                <h2>🇬🇧 문제 7 (객관식)</h2>
+                <p class="question">영국이 유럽 연합(EU)에서 탈퇴한 '브렉시트(Brexit)' 사례를 통해 알 수 있는 유럽 통합의 어려움으로 <u>옳지 않은</u> 것은 무엇일까요?</p>
+                <div class="options">
+                    <label><input type="radio" name="q7_option" value="1">1. 회원국 간 경제 규모 차이로 인한 갈등이 생길 수 있어요.</label>
+                    <label><input type="radio" name="q7_option" value="2">2. 이민자 수 증가로 인한 사회적 문제가 발생할 수 있어요.</label>
+                    <label><input type="radio" name="q7_option" value="3">3. 각 나라의 정치적 이해관계가 달라 의견을 모으기 어려워요.</label>
+                    <label><input type="radio" name="q7_option" value="4">4. 통합으로 인해 문화적 다양성이 더욱 풍부해져요.</label>
+                    <label><input type="radio" name="q7_option" value="5">5. 각국의 주권 침해 논란이 발생할 수 있어요.</label>
+                </div>
+                <button type="button" class="check-button" onclick="checkAnswer(7)">정답 확인!</button>
+                <div class="explanation" id="exp7"></div>
+            </div>
+
+            <div class="quiz-section" id="q8">
+                <h2>🏞️ 문제 8 (단답형)</h2>
+                <p class="question">유럽의 서부 해안에 주로 나타나며, 멕시코 만류의 영향으로 겨울에도 비교적 따뜻하고 강수량이 고른 기후를 무엇이라고 부를까요?</p>
+                <input type="text" class="answer-input" id="q8_answer" placeholder="정답을 입력하세요">
+                <button type="button" class="check-button" onclick="checkAnswer(8)">정답 확인!</button>
+                <div class="explanation" id="exp8"></div>
+            </div>
+
+            <div class="quiz-section" id="q9">
+                <h2>🏰 문제 9 (단답형)</h2>
+                <p class="question">역사와 문화유산이 풍부하며, 좁고 복잡한 도로와 오래된 건물이 많은 유럽의 전통적인 도시를 무엇이라고 부를까요?</p>
+                <input type="text" class="answer-input" id="q9_answer" placeholder="정답을 입력하세요">
+                <button type="button" class="check-button" onclick="checkAnswer(9)">정답 확인!</button>
+                <div class="explanation" id="exp9"></div>
+            </div>
+
+            <div class="quiz-section" id="q10">
+                <h2>📈 문제 10 (서술형)</h2>
+                <p class="question">유럽 연합(EU)이 추구하는 통합의 장점 두 가지를 자세히 설명해 보세요.</p>
+                <textarea class="answer-input" id="q10_answer" rows="5" placeholder="답변을 입력하세요"></textarea>
+                <button type="button" class="check-button" onclick="checkAnswer(10)">정답 확인!</button>
+                <div class="explanation" id="exp10"></div>
+            </div>
+        </form>
+
+        <div class="score-section" id="finalScore">
+            <p>🎉 시험 결과 🎉</p>
+            <p>총점: <span id="totalScore">0</span>점</p>
+            <p>총 100점 만점이에요!</p>
         </div>
 
-        <div id="navigation">
-            <button id="next-btn" style="display: none;">다음 문제</button>
-            <button id="restart-btn">다시 풀기</button>
+        <div class="buttons-bottom">
+            <button onclick="resetQuiz()">✨ 다시 풀기</button>
+            <button onclick="goBack()">🏠 뒤로 가기</button>
         </div>
     </div>
 
     <script>
-        const quizData = [
-            {
-                question: "본문에 따르면, 유럽 연합(EU)이 공식적으로 출범한 연도는 언제인가요?",
-                options: ["1951년 (유럽석탄철강공동체)", "1985년 (솅겐 조약)", "1993년", "2002년 (유로화 유통)", "2020년 (영국 탈퇴)"],
-                answer: "1993년",
-                feedback: "정답! 1993년 마스트리히트 조약을 통해 유럽 연합(EU)이 공식 출범했어요."
-            },
-            {
-                question: "유럽 연합(EU)이 회원국 간 자유로운 이동을 보장하는 대상이 <strong>아닌</strong> 것은 무엇인가요?",
-                options: ["노동", "자본", "상품", "서비스", "문화"],
-                answer: "문화",
-                feedback: "정답! EU는 '노동, 자본, 상품, 서비스'의 자유로운 이동을 보장합니다. 문화는 포함되지 않아요."
-            },
-            {
-                question: "본문에 언급된 유럽 연합(EU)의 공동 화폐는 무엇인가요?",
-                options: ["달러 ($)", "파운드 (£)", "유로 (€)", "프랑 (₣)", "위안 (¥)"],
-                answer: "유로 (€)",
-                feedback: "정답! EU의 많은 회원국들은 유로(€)를 공동 화폐로 사용하고 있습니다."
-            },
-            {
-                question: "본문의 내용과 일치하는 것을 고르세요.",
-                options: [
-                    "EU는 순수한 경제 공동체이다.",
-                    "EU는 2023년 현재 총 28개국이 가입해 있다.",
-                    "EU 회원국이 되려면 반드시 유로화를 사용해야 한다.",
-                    "2020년 영국(UK)이 EU를 탈퇴했다.",
-                    "EU는 국가의 고유한 정치, 사회 정책에 관여하지 않는다."
-                ],
-                answer: "2020년 영국(UK)이 EU를 탈퇴했다.",
-                feedback: "정답! 본문에 따르면 영국은 2020년 탈퇴했고, 2023년 현재 회원국은 27개국입니다. EU는 경제뿐만 아니라 정치, 사회 등에도 공동 정책을 추구해요."
-            },
-            {
-                question: "두 차례의 세계 대전 이후, 유럽이 통합을 추진하게 된 주된 배경으로 옳은 것은 무엇인가요?",
-                options: [
-                    "미국의 간섭에서 벗어나기 위해",
-                    "단일 언어 사용을 통한 효율성 증대",
-                    "경제 발전과 평화 정착을 위해",
-                    "소련의 팽창을 군사적으로 견제하기 위해",
-                    "왕정 국가들의 연합을 강화하기 위해"
-                ],
-                answer: "경제 발전과 평화 정착을 위해",
-                feedback: "정답! 잦은 전쟁을 겪은 유럽은 경제 발전과 평화를 이루기 위해 통합의 필요성을 느끼게 되었습니다."
-            }
-        ];
-
-        const quizContainer = document.getElementById('quiz-container');
-        const questionElement = document.getElementById('question');
-        const optionsContainer = document.getElementById('options-container');
-        const feedbackElement = document.getElementById('feedback');
-        const nextButton = document.getElementById('next-btn');
-        const restartButton = document.getElementById('restart-btn');
-        
-        const progressBar = document.getElementById('progress-bar');
-        const quizContent = document.getElementById('quiz-content');
-        const scoreContainer = document.getElementById('score-container');
-        const finalScoreElement = document.getElementById('final-score');
-
-        let currentQuestionIndex = 0;
         let score = 0;
+        const totalQuestions = 10;
+        const correctAnswers = {
+            q1: '4', // 지중해성 기후는 주로 유럽 남부에서 나타남.
+            q2: '5', // 유럽의 역사도시는 초고층 빌딩보다 고대/중세 유적과 친환경 교통수단이 특징.
+            q3: '1', // 베네치아는 물의 도시.
+            q4: '4', // 지속 가능한 도시는 인구 밀도를 높이는 것보다 환경 친화적인 개발을 강조.
+            q5: '4', // 레몬은 지중해성 기후에서 잘 자람.
+            q6: '4', // 모든 회원국의 경제 규모나 문화가 동일하지 않음 (다양성 존재).
+            q7: '4', // 통합으로 문화적 다양성이 풍부해지는 것은 장점이지 어려움이 아님.
+            q8: '온대 해양성 기후',
+            q9: '역사 도시' || '역사도시',
+            q10: ['경제 성장', '평화 유지', '문화 교류', '국제적 영향력'] // 키워드 포함 여부 확인
+        };
+        const questionPoints = {
+            q1: 10, q2: 10, q3: 10, q4: 10, q5: 10, q6: 10, q7: 10, // 객관식 70점 (각 10점)
+            q8: 10, q9: 10, // 단답형 20점 (각 10점)
+            q10: 10 // 서술형 10점
+        };
 
-        function startQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            quizContent.style.display = 'block';
-            scoreContainer.style.display = 'none';
-            nextButton.style.display = 'none';
-            restartButton.style.display = 'none';
-            feedbackElement.textContent = '';
-            showQuestion();
-        }
+        const explanations = {
+            q1: "지중해성 기후는 주로 유럽 남부 지역에서 나타나며, 여름은 덥고 건조하고 겨울은 따뜻하고 습한 것이 특징이에요. 올리브, 포도, 코르크나무 같은 식물이 잘 자라서 와인과 올리브유 생산이 활발해요.",
+            q2: "유럽의 역사 도시는 오랜 역사와 문화유산을 간직하고 있어, 고대 로마 유적, 중세 시대의 성과 대성당, 좁고 복잡한 도로 등을 흔히 볼 수 있어요. 초고층 빌딩으로 가득 찬 현대적인 업무 지구는 비교적 최근에 조성된 신도시나 특정 금융 중심지에서 주로 찾아볼 수 있어요.",
+            q3: "베네치아는 '물의 도시'로 불리며, 자동차 대신 곤돌라나 배를 이용해 이동하는 것이 특징이에요. 베네치아 카니발은 매년 겨울에 열리는 세계적으로 유명한 축제랍니다.",
+            q4: "지속 가능한 도시는 환경을 보호하고 자원을 효율적으로 사용하며, 신재생 에너지를 활용하고 대중교통과 자전거 이용을 장려해요. 건물을 높게 지어 인구 밀도를 높이는 것은 지속 가능한 도시의 핵심 요소는 아니에요.",
+            q5: "사진 속 망통의 레몬 축제는 지중해성 기후에서 잘 자라는 레몬을 이용한 축제예요. 지중해성 기후는 올리브, 포도, 레몬 등 과일 재배에 적합한 조건을 제공해요.",
+            q6: "유럽 연합(EU)은 유럽의 평화와 번영, 경제 통합을 목표로 하며, 회원국 간의 자유로운 이동을 추구해요. 하지만 모든 회원국의 경제 규모나 문화가 동일한 것은 아니며, 다양한 나라들이 모여있기 때문에 문화적 다양성이 더욱 풍부해지는 특징을 가지고 있어요.",
+            q7: "브렉시트는 회원국 간 경제 규모 차이, 이민자 문제, 정치적 이해관계 충돌, 주권 침해 논란 등 유럽 통합의 여러 어려움을 보여주는 사례예요. 문화적 다양성이 풍부해지는 것은 통합의 장점이지 어려움이 아니에요.",
+            q8: "유럽 서부 해안에 주로 나타나며 멕시코 만류의 영향으로 겨울에도 비교적 따뜻하고 강수량이 고른 기후는 '온대 해양성 기후'입니다.",
+            q9: "역사와 문화유산이 풍부하고 좁고 복잡한 도로와 오래된 건물이 많은 유럽의 전통적인 도시를 '역사 도시'라고 부릅니다.",
+            q10: "유럽 연합(EU)이 추구하는 통합의 장점으로는 크게 '경제적 협력 강화로 인한 경제 성장 및 발전', '회원국 간의 평화 유지와 분쟁 방지', '문화적 교류 활성화와 다양성 증진', '국제사회에서 유럽의 영향력 확대' 등이 있어요. 이 중 두 가지를 설명하면 됩니다."
+        };
 
-        function showQuestion() {
-            updateProgressBar();
-            const currentQuestion = quizData[currentQuestionIndex];
-            questionElement.innerHTML = `<strong>Q${currentQuestionIndex + 1}.</strong> ${currentQuestion.question}`;
-            
-            optionsContainer.innerHTML = '';
-            currentQuestion.options.forEach(option => {
-                const button = document.createElement('button');
-                button.innerHTML = option;
-                button.classList.add('option-btn');
-                button.addEventListener('click', () => selectAnswer(button, option, currentQuestion));
-                optionsContainer.appendChild(button);
-            });
-            nextButton.style.display = 'none';
-        }
+        function checkAnswer(questionNum) {
+            const qElement = document.getElementById(`q${questionNum}`);
+            const explanationElement = document.getElementById(`exp${questionNum}`);
+            let isCorrect = false;
+            let userAnswer = '';
 
-        function selectAnswer(button, selectedOption, question) {
-            const isCorrect = selectedOption === question.answer;
-
-            Array.from(optionsContainer.children).forEach(btn => {
-                btn.disabled = true;
-                if (btn.innerHTML === question.answer) {
-                    btn.classList.add('correct');
-                } else if (btn === button) {
-                    btn.classList.add('wrong');
+            if (questionNum >= 1 && questionNum <= 7) { // 객관식
+                const selectedOption = document.querySelector(`input[name="q${questionNum}_option"]:checked`);
+                if (selectedOption) {
+                    userAnswer = selectedOption.value;
+                    if (userAnswer === correctAnswers[`q${questionNum}`]) {
+                        isCorrect = true;
+                    }
                 }
-            });
-            
+            } else if (questionNum >= 8 && questionNum <= 9) { // 단답형
+                userAnswer = document.getElementById(`q${questionNum}_answer`).value.trim();
+                if (correctAnswers[`q${questionNum}`].includes(userAnswer)) { // 단답형은 정확히 일치하거나 포함되는지
+                    isCorrect = true;
+                }
+            } else if (questionNum === 10) { // 서술형
+                userAnswer = document.getElementById(`q${questionNum}_answer`).value.trim();
+                let correctCount = 0;
+                correctAnswers.q10.forEach(keyword => {
+                    if (userAnswer.includes(keyword)) {
+                        correctCount++;
+                    }
+                });
+                // 서술형은 키워드 2개 이상 포함 시 정답으로 처리 (부분 점수 부여 가능성을 위해)
+                if (correctCount >= 2) {
+                    isCorrect = true;
+                }
+            }
+
             if (isCorrect) {
-                score++;
-                feedbackElement.textContent = `✅ ${question.feedback}`;
-                feedbackElement.style.color = '#155724';
+                if (!qElement.classList.contains('answered_correct')) { // 중복 점수 방지
+                    score += questionPoints[`q${questionNum}`];
+                    qElement.classList.add('answered_correct');
+                }
+                explanationElement.innerHTML = `<span class="correct">👍 정답이에요! </span> ${explanations[`q${questionNum}`]}`;
             } else {
-                feedbackElement.textContent = `❌ 오답! ${question.feedback}`;
-                feedbackElement.style.color = '#721c24';
+                if (qElement.classList.contains('answered_correct')) { // 이전에 맞췄는데 다시 틀렸을 경우 점수 차감
+                    score -= questionPoints[`q${questionNum}`];
+                    qElement.classList.remove('answered_correct');
+                }
+                explanationElement.innerHTML = `<span class="incorrect">😅 아쉬워요! 다시 생각해볼까요?</span> ${explanations[`q${questionNum}`]}`;
             }
-
-            if (currentQuestionIndex < quizData.length - 1) {
-                nextButton.style.display = 'inline-block';
-            } else {
-                showScore();
-            }
-        }
-        
-        function showScore() {
-            quizContent.style.display = 'none';
-            scoreContainer.style.display = 'block';
-            finalScoreElement.textContent = `${score} / ${quizData.length}`;
-            nextButton.style.display = 'none';
-            restartButton.style.display = 'inline-block';
-        }
-        
-        function updateProgressBar() {
-            const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
-            progressBar.style.width = `${progressPercentage}%`;
+            explanationElement.style.display = 'block'; // 설명 보이기
+            updateTotalScore(); // 총점 업데이트
         }
 
-        nextButton.addEventListener('click', () => {
-            currentQuestionIndex++;
-            feedbackElement.textContent = '';
-            showQuestion();
-        });
-        
-        restartButton.addEventListener('click', startQuiz);
+        function updateTotalScore() {
+            document.getElementById('totalScore').textContent = score;
+            document.getElementById('finalScore').style.display = 'block'; // 총점 영역 보이기
+        }
 
-        // Start the quiz on page load
-        startQuiz();
+        function resetQuiz() {
+            score = 0;
+            document.getElementById('quizForm').reset(); // 폼 초기화
+            const explanations = document.querySelectorAll('.explanation');
+            explanations.forEach(exp => exp.style.display = 'none'); // 설명 숨기기
+
+            const quizSections = document.querySelectorAll('.quiz-section');
+            quizSections.forEach(section => section.classList.remove('answered_correct')); // 정답 표시 제거
+
+            updateTotalScore(); // 총점 초기화
+            document.getElementById('finalScore').style.display = 'none'; // 총점 영역 숨기기
+        }
+
+        function goBack() {
+            alert('이전 페이지로 돌아갑니다.');
+            // 실제 웹 페이지에서는 window.history.back() 또는 특정 URL로 이동하는 코드를 사용합니다.
+            // window.history.back(); // 실제 뒤로가기
+        }
     </script>
 </body>
 </html>
